@@ -14,7 +14,7 @@ using namespace std;
 
 struct computer {
   size_t pc{0};
-  vector<int> reg{4, 0};
+  vector<int> reg{0, 0, 0, 0};
   vector<function<void(computer &cptr)>> instr;
 
   // Read instructions from stdin
