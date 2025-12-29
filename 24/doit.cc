@@ -8,6 +8,7 @@
 #include <vector>
 #include <list>
 #include <set>
+#include <optional>
 #include <algorithm>
 #include <cctype>
 #include <cassert>

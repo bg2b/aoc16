@@ -6,6 +6,7 @@
 #include <iostream>
 #include <functional>
 #include <set>
+#include <optional>
 #include <cstdlib>
 #include <cassert>
 
