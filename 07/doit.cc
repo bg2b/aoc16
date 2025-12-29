@@ -25,7 +25,7 @@ pair<vector<string>, vector<string>> split(string s) {
     hyper.push_back(s.substr(hyper_start + 1, hyper_len));
     s = s.substr(hyper_end + 1);
   }
-  return { non_hyper, hyper };
+  return {non_hyper, hyper};
 }
 
 bool has_abba(string const &s) {
@@ -51,8 +51,8 @@ bool supports_ssl(string const &s) {
   for (auto const &nh : non_hyper)
     for (size_t i = 0; i + 2 < nh.length(); ++i)
       if (nh[i] == nh[i + 2] && nh[i] != nh[i + 1]) {
-        string aba = { nh[i + 1], nh[i], nh[i + 1] };
-        for (auto const &h: hyper)
+        string aba = {nh[i + 1], nh[i], nh[i + 1]};
+        for (auto const &h : hyper)
           if (h.find(aba) != string::npos)
             return true;
       }

@@ -31,13 +31,13 @@ using range = pair<IP, IP>;
 vector<range> onion(vector<range> const &rs1, vector<range> const &rs2) {
   vector<range> result;
   auto add = [&](range const &r) {
-               // Careful, want result.back().second + 1 < r.first,
-               // but written naively, the + 1 could cause a wrap
-               if (result.empty() || size_t(result.back().second) + 1 < r.first)
-                 result.push_back(r);
-               else
-                 result.back().second = max(result.back().second, r.second);
-             };
+    // Careful, want result.back().second + 1 < r.first,
+    // but written naively, the + 1 could cause a wrap
+    if (result.empty() || size_t(result.back().second) + 1 < r.first)
+      result.push_back(r);
+    else
+      result.back().second = max(result.back().second, r.second);
+  };
   size_t i1 = 0, i2 = 0;
   while (i1 < rs1.size() && i2 < rs2.size())
     if (rs1[i1].first < rs2[i2].first)
@@ -60,7 +60,7 @@ vector<range> merge(vector<range>::const_iterator start,
   assert(start != end);
   size_t n = end - start;
   if (n == 1)
-    return { *start };
+    return {*start};
   // Split, recurse, merge subparts
   auto rs1 = merge(start, start + n / 2);
   auto rs2 = merge(start + n / 2, end);

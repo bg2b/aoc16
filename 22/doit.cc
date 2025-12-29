@@ -23,7 +23,7 @@ using node = pair<unsigned, unsigned>;
 using index = pair<int, int>;
 
 index operator+(index const &i1, index const &i2) {
-  return { i1.first + i2.first, i1.second + i2.second };
+  return {i1.first + i2.first, i1.second + i2.second};
 }
 
 int manhattan(index const &i1, index const &i2) {
@@ -45,12 +45,12 @@ struct grid {
 
 grid::grid() {
   auto add = [&](unsigned x, unsigned y, node const &n) {
-               while (y >= nodes.size())
-                 nodes.emplace_back(vector<node>());
-               while (x >= nodes[y].size())
-                 nodes[y].emplace_back(0, 0);
-               nodes[y][x] = n;
-             };
+    while (y >= nodes.size())
+      nodes.emplace_back(vector<node>());
+    while (x >= nodes[y].size())
+      nodes[y].emplace_back(0, 0);
+    nodes[y][x] = n;
+  };
   string line;
   while (getline(cin, line)) {
     if (line[0] != '/')
@@ -64,7 +64,7 @@ grid::grid() {
     unsigned used = stoi(used_);
     unsigned avail = stoi(avail_);
     assert(size == used + avail);
-    add(x, y, { used, avail });
+    add(x, y, {used, avail});
   }
   for (auto const &row : nodes)
     assert(row.size() == nodes.front().size());
@@ -106,9 +106,9 @@ struct abstract_grid {
   // The initial position of the empty node
   index hole;
   // Where's the data to fetch?
-  index goal{ 0, 0 };
+  index goal{0, 0};
   // Maximum coordinates
-  index corner{ 0, 0 };
+  index corner{0, 0};
 
   abstract_grid(grid const &g);
 };
@@ -148,7 +148,7 @@ abstract_grid::abstract_grid(grid const &g) {
   // No other nodes should be able to act like the hole
   assert(min_movable_used > max_nonhole_avail);
   // Controllable corner and goal should be movable
-  assert(!unmovable.count({ 0, 0 }) && !unmovable.count(goal));
+  assert(!unmovable.count({0, 0}) && !unmovable.count(goal));
 }
 
 // Search state for shortest sequence
@@ -168,7 +168,7 @@ struct state {
   state(index const &hole_, index const &goal_, unsigned steps_);
 
   // Desired data obtained?
-  bool done() const { return goal == index{ 0, 0 }; }
+  bool done() const { return goal == index{0, 0}; }
   // Compute the lower bound
   void compute_bound();
 
@@ -182,8 +182,8 @@ state::state(abstract_grid const &absg) : hole(absg.hole), goal(absg.goal) {
   compute_bound();
 }
 
-state::state(index const &hole_, index const &goal_, unsigned steps_) :
-  hole(hole_), goal(goal_), steps(steps_) {
+state::state(index const &hole_, index const &goal_, unsigned steps_)
+    : hole(hole_), goal(goal_), steps(steps_) {
   compute_bound();
 }
 
@@ -220,7 +220,7 @@ void state::compute_bound() {
 
 list<state> state::successors(abstract_grid const &absg) const {
   list<state> result;
-  static vector<index> dirs{ { -1, 0 }, { +1, 0 }, { 0, -1 }, { 0, +1 } };
+  static vector<index> dirs{{-1, 0}, {+1, 0}, {0, -1}, {0, +1}};
   for (auto const &dir : dirs) {
     index next_hole = hole + dir;
     if (next_hole.first < 0 || next_hole.first > absg.corner.first ||
@@ -247,21 +247,21 @@ unsigned search(grid const &g) {
   abstract_grid absg(g);
   set<state> seen;
   auto comp_bound = [](state const &s1, state const &s2) {
-                      return s1.bound > s2.bound;
-                    };
+    return s1.bound > s2.bound;
+  };
   priority_queue<state, vector<state>, decltype(comp_bound)> q(comp_bound);
   auto visit = [&](state const &s) {
-                 auto p = seen.find(s);
-                 if (p != seen.end()) {
-                   if (p->steps <= s.steps)
-                     // Already seen with no more steps than now
-                     return;
-                   // Need to update with new smaller number of steps
-                   seen.erase(p);
-                 }
-                 seen.emplace(s);
-                 q.push(s);
-               };
+    auto p = seen.find(s);
+    if (p != seen.end()) {
+      if (p->steps <= s.steps)
+        // Already seen with no more steps than now
+        return;
+      // Need to update with new smaller number of steps
+      seen.erase(p);
+    }
+    seen.emplace(s);
+    q.push(s);
+  };
   visit(state(absg));
   optional<unsigned> min_steps;
   while (!q.empty()) {

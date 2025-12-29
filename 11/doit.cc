@@ -118,20 +118,19 @@ list<state> state::successors() const {
   assert(rtf[from] & elevator);
   // Consider moving some items between from and to.  Add a new
   // successor state if nothing is fried by doing that.
-  auto maybe_move =
-    [&](items moving, unsigned to) {
-      state next(*this);
-      assert((next.rtf[from] & moving) == moving);
-      assert((next.rtf[to] & moving) == 0);
-      next.rtf[from] ^= moving;
-      next.rtf[to] ^= moving;
-      if (next.fried())
-        return;
-      ++next.steps;
-      result.push_back(next);
-    };
+  auto maybe_move = [&](items moving, unsigned to) {
+    state next(*this);
+    assert((next.rtf[from] & moving) == moving);
+    assert((next.rtf[to] & moving) == 0);
+    next.rtf[from] ^= moving;
+    next.rtf[to] ^= moving;
+    if (next.fried())
+      return;
+    ++next.steps;
+    result.push_back(next);
+  };
   items current = rtf[from];
-  for (int dir : { -1, +1 }) {
+  for (int dir : {-1, +1}) {
     if ((from == 0 && dir < 0) || (from == num_floors - 1 && dir > 0))
       continue;
     unsigned to = from + dir;
@@ -214,12 +213,12 @@ void solve(string const &extra) {
   set<RTF> seen;
   list<state> frontier;
   auto add = [&](state const &s) {
-               RTF rtf = canonical(s.rtf);
-               if (seen.find(rtf) != seen.end())
-                 return;
-               seen.insert(rtf);
-               frontier.push_back(s);
-             };
+    RTF rtf = canonical(s.rtf);
+    if (seen.find(rtf) != seen.end())
+      return;
+    seen.insert(rtf);
+    frontier.push_back(s);
+  };
   add(start);
   optional<unsigned> steps;
   while (!frontier.empty()) {

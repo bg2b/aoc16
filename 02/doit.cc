@@ -13,15 +13,13 @@ using namespace std;
 using coord = pair<int, int>;
 
 coord operator+(coord const &xy1, coord const &xy2) {
-  return { xy1.first + xy2.first, xy1.second + xy2.second };
+  return {xy1.first + xy2.first, xy1.second + xy2.second};
 }
 
-map<char, coord> deltas =
-  { { 'U', { 0, -1 } }, { 'D', { 0, +1 } },
-    { 'L', { -1, 0 } }, { 'R', { +1, 0 } } };
+map<char, coord> deltas = {
+    {'U', {0, -1}}, {'D', {0, +1}}, {'L', {-1, 0}}, {'R', {+1, 0}}};
 
-void find_code(coord const &start,
-               function<bool(coord const &)> valid,
+void find_code(coord const &start, function<bool(coord const &)> valid,
                function<char(coord const &)> to_digit) {
   string line;
   coord at = start;
@@ -39,27 +37,27 @@ void find_code(coord const &start,
 
 void part1() {
   auto valid = [](coord const &xy) {
-                 return abs(xy.first) <= 1 && abs(xy.second) <= 1;
-               };
+    return abs(xy.first) <= 1 && abs(xy.second) <= 1;
+  };
   auto to_digit = [](coord const &xy) {
-                    return '1' + (xy.first + 1) + 3 * (xy.second + 1);
-                  };
-  find_code({ 0, 0 }, valid, to_digit);
+    return '1' + (xy.first + 1) + 3 * (xy.second + 1);
+  };
+  find_code({0, 0}, valid, to_digit);
 }
 
 void part2() {
   auto valid = [](coord const &xy) {
-                 return abs(xy.first) + abs(xy.second) <= 2;
-               };
+    return abs(xy.first) + abs(xy.second) <= 2;
+  };
   auto to_digit = [](coord const &xy) {
-                    char const *digits = ("??1??"
-                                          "?234?"
-                                          "56789"
-                                          "?ABC?"
-                                          "??D??");
-                    return digits[(xy.first + 2) + 5 * (xy.second + 2)];
-                  };
-  find_code({ -2, 0 }, valid, to_digit);
+    char const *digits = ("??1??"
+                          "?234?"
+                          "56789"
+                          "?ABC?"
+                          "??D??");
+    return digits[(xy.first + 2) + 5 * (xy.second + 2)];
+  };
+  find_code({-2, 0}, valid, to_digit);
 }
 
 int main(int argc, char **argv) {

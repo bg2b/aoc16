@@ -46,8 +46,8 @@ factory::factory() {
     }
     string low_type, high_type;
     int bot, low, high;
-    cin >> bot >> _ >> _ >> _ >> low_type >> low >>
-      _ >> _ >> _ >> high_type >> high;
+    cin >> bot >> _ >> _ >> _ >> low_type >> low >> _ >> _ >> _ >> high_type >>
+        high;
     // Encode outputs as negative
     if (low_type == "output")
       low = -1 - low;
@@ -82,7 +82,7 @@ void factory::give(int val, int bot_or_output) {
 }
 
 int factory::who_compared(int low, int high) const {
-  auto p = compared.find({ low, high });
+  auto p = compared.find({low, high});
   assert(p != compared.end());
   return p->second;
 }

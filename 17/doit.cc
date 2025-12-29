@@ -18,11 +18,11 @@ using coord = pair<short, short>;
 int const ndir = 4;
 int const nmaze = 4;
 
-vector<coord> dirs{ { 0, -1 }, { 0, +1 }, { -1, 0 }, { +1, 0 } };
+vector<coord> dirs{{0, -1}, {0, +1}, {-1, 0}, {+1, 0}};
 char const *dir_codes = "UDLR";
 
 coord operator+(coord const &c1, coord const &c2) {
-  return { c1.first + c2.first, c1.second + c2.second };
+  return {c1.first + c2.first, c1.second + c2.second};
 }
 
 bool in_bounds(coord const &c) {
@@ -74,8 +74,8 @@ list<state> state::successors() const {
 }
 
 string search(bool find_longest) {
-  state initial({ 0, 0 }, "");
-  list<state> frontier{ initial };
+  state initial({0, 0}, "");
+  list<state> frontier{initial};
   string longest;
   while (!frontier.empty()) {
     state s = frontier.front();

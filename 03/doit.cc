@@ -23,8 +23,8 @@ void part1() {
 void part2() {
   int ans = 0;
   int s1[3], s2[3], s3[3];
-  while (cin >> s1[0] >> s1[1] >> s1[2] >> s2[0] >> s2[1] >> s2[2] >>
-         s3[0] >> s3[1] >> s3[2])
+  while (cin >> s1[0] >> s1[1] >> s1[2] >> s2[0] >> s2[1] >> s2[2] >> s3[0] >>
+         s3[1] >> s3[2])
     for (int i = 0; i < 3; ++i)
       if (is_triangle(s1[i], s2[i], s3[i]))
         ++ans;

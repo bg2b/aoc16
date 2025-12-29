@@ -26,12 +26,11 @@ vector<pair<string, int>> filter() {
     vector<pair<size_t, char>> counts;
     for (char c = 'a'; c <= 'z'; ++c)
       counts.emplace_back(count(name.begin(), name.end(), c), c);
-    sort(counts.begin(), counts.end(),
-         [](auto const &p1, auto const &p2) {
-           if (p1.first != p2.first)
-             return p1.first > p2.first;
-           return p1.second < p2.second;
-         });
+    sort(counts.begin(), counts.end(), [](auto const &p1, auto const &p2) {
+      if (p1.first != p2.first)
+        return p1.first > p2.first;
+      return p1.second < p2.second;
+    });
     string expected;
     for (size_t i = 0; i < 5; ++i)
       expected.push_back(counts[i].second);

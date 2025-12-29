@@ -73,8 +73,8 @@ scrambler::scrambler() {
       unsigned start, end;
       cin >> _ >> start >> _ >> end;
       add([=](string &s, bool) {
-            reverse(s.begin() + start, s.begin() + end + 1);
-          });
+        reverse(s.begin() + start, s.begin() + end + 1);
+      });
     } else if (cmd == "rotate") {
       string dir;
       cin >> dir;

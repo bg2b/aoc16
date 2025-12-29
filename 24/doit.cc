@@ -18,7 +18,7 @@ using namespace std;
 using coord = pair<int, int>;
 
 coord operator+(coord const &c1, coord const &c2) {
-  return { c1.first + c2.first, c1.second + c2.second };
+  return {c1.first + c2.first, c1.second + c2.second};
 }
 
 struct ducts {
@@ -47,7 +47,7 @@ ducts::ducts() {
     string::size_type pos = 0;
     while ((pos = row.find_first_of("0123456789", pos)) != string::npos) {
       unsigned index = row[pos] - '0';
-      coord c{ rows.size(), pos };
+      coord c{rows.size(), pos};
       if (index >= locs.size())
         locs.resize(index + 1);
       locs[index] = c;
@@ -67,11 +67,11 @@ void ducts::compute_paths() {
     set<coord> visited;
     list<pair<coord, int>> frontier;
     auto visit = [&](coord const &c, int steps) {
-                   if (at(c) == '#' || visited.count(c))
-                     return;
-                   visited.insert(c);
-                   frontier.emplace_back(c, steps);
-                 };
+      if (at(c) == '#' || visited.count(c))
+        return;
+      visited.insert(c);
+      frontier.emplace_back(c, steps);
+    };
     visit(locs[start], 0);
     while (!frontier.empty()) {
       auto [c, steps] = frontier.front();
@@ -80,7 +80,7 @@ void ducts::compute_paths() {
       assert(ch != '#');
       if (isdigit(ch))
         shortest_paths[start][ch - '0'] = steps;
-      static vector<coord> dirs{ { -1, 0 }, { +1, 0 }, { 0, -1 }, { 0, +1 } };
+      static vector<coord> dirs{{-1, 0}, {+1, 0}, {0, -1}, {0, +1}};
       for (auto const &dir : dirs)
         visit(c + dir, steps + 1);
     }

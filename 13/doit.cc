@@ -15,7 +15,7 @@ using num = long;
 using coord = pair<num, num>;
 
 coord operator+(coord const &c1, coord const &c2) {
-  return { c1.first + c2.first, c1.second + c2.second };
+  return {c1.first + c2.first, c1.second + c2.second};
 }
 
 inline int parity(num n) { return __builtin_parityl(n); }
@@ -40,17 +40,17 @@ void bfs(coord const &target, unsigned max_steps) {
   num favorite;
   cin >> favorite;
   maze mz(favorite);
-  assert(mz.at({ 1, 1 }) == '.');
+  assert(mz.at({1, 1}) == '.');
   using state = pair<unsigned, coord>;
   set<coord> reached;
   list<state> frontier;
   auto visit = [&](unsigned steps, coord const &c) {
-                 if (reached.count(c))
-                   return;
-                 reached.insert(c);
-                 frontier.emplace_back(steps, c);
-               };
-  visit(0, { 1, 1 });
+    if (reached.count(c))
+      return;
+    reached.insert(c);
+    frontier.emplace_back(steps, c);
+  };
+  visit(0, {1, 1});
   optional<unsigned> min_steps;
   while (!frontier.empty()) {
     auto [steps, c] = frontier.front();
@@ -61,7 +61,7 @@ void bfs(coord const &target, unsigned max_steps) {
     }
     if (steps >= max_steps)
       continue;
-    static list<coord> dirs{ { +1, 0 }, { 0, +1 }, { -1, 0 }, { 0, -1 } };
+    static list<coord> dirs{{+1, 0}, {0, +1}, {-1, 0}, {0, -1}};
     for (coord const &delta : dirs) {
       coord next = c + delta;
       if (mz.at(next) == '.')
@@ -74,8 +74,8 @@ void bfs(coord const &target, unsigned max_steps) {
     cout << reached.size() << '\n';
 }
 
-void part1() { bfs({ 31, 39 }, 9999); }
-void part2() { bfs({ 9999, 9999 }, 50); }
+void part1() { bfs({31, 39}, 9999); }
+void part2() { bfs({9999, 9999}, 50); }
 
 int main(int argc, char **argv) {
   if (argc != 2) {

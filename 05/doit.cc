@@ -30,7 +30,7 @@ string md5(string const &s) {
 void search(string const &prefix, function<bool(string const &sig)> found) {
   string door_id;
   cin >> door_id;
-  for (unsigned i = 0; ; ++i) {
+  for (unsigned i = 0;; ++i) {
     string sig = md5(door_id + to_string(i));
     if (sig.substr(0, prefix.length()) == prefix && found(sig))
       return;
@@ -39,11 +39,10 @@ void search(string const &prefix, function<bool(string const &sig)> found) {
 
 void part1() {
   string passwd;
-  search("00000",
-         [&](string const &sig) {
-           passwd.push_back(sig[5]);
-           return passwd.length() >= 8;
-         });
+  search("00000", [&](string const &sig) {
+    passwd.push_back(sig[5]);
+    return passwd.length() >= 8;
+  });
   cout << passwd << '\n';
 }
 
@@ -55,35 +54,34 @@ void part2() {
   string passwd = "________";
   unsigned num_found = 0;
   unsigned next_rand = 73;
-  search("0000",
-         [&](string const &sig) {
-           // ...
-           cout << bol << uncolored << "Cracking ";
-           for (char c : passwd)
-             if (c == '_') {
-               next_rand += 97;
-               char mixed = next_rand % 36;
-               if (mixed < 10)
-                 mixed = '0' + mixed;
-               else
-                 mixed = 'a' + (mixed - 10);
-               cout << red << mixed;
-             } else
-               cout << green << c;
-           cout << uncolored << flush;
-           if (sig.substr(0, 5) != "00000")
-             // Just for display purposes
-             return false;
-           int pos = sig[5] - '0';
-           if (pos < 0 || pos > 7 || passwd[pos] != '_')
-             // Invalid position or already found
-             return false;
-           passwd[pos] = sig[6];
-           ++num_found;
-           return num_found >= 8;
-         });
-  cout << bol << uncolored << "Password " <<
-    green << passwd << uncolored << '\n';
+  search("0000", [&](string const &sig) {
+    // ...
+    cout << bol << uncolored << "Cracking ";
+    for (char c : passwd)
+      if (c == '_') {
+        next_rand += 97;
+        char mixed = next_rand % 36;
+        if (mixed < 10)
+          mixed = '0' + mixed;
+        else
+          mixed = 'a' + (mixed - 10);
+        cout << red << mixed;
+      } else
+        cout << green << c;
+    cout << uncolored << flush;
+    if (sig.substr(0, 5) != "00000")
+      // Just for display purposes
+      return false;
+    int pos = sig[5] - '0';
+    if (pos < 0 || pos > 7 || passwd[pos] != '_')
+      // Invalid position or already found
+      return false;
+    passwd[pos] = sig[6];
+    ++num_found;
+    return num_found >= 8;
+  });
+  cout << bol << uncolored << "Password " << green << passwd << uncolored
+       << '\n';
 }
 
 int main(int argc, char **argv) {

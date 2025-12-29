@@ -34,26 +34,26 @@ discs align(discs const &d1, discs const &d2) {
   // Align with period2
   while ((t - t2) % period2 != 0)
     t += period1;
-  return { t, lcm(period1, period2) };
+  return {t, lcm(period1, period2)};
 }
 
 vector<discs> read(bool extra) {
   vector<discs> result;
   auto add = [&](unsigned num, unsigned a, unsigned m) {
-               assert(a < m);
-               // Account for time delay to drop to the disc
-               a = (a + num) % m;
-               // How much more time to first effectively align?
-               if (a != 0)
-                 a = m - a;
-               result.emplace_back(a, m);
-             };
+    assert(a < m);
+    // Account for time delay to drop to the disc
+    a = (a + num) % m;
+    // How much more time to first effectively align?
+    if (a != 0)
+      a = m - a;
+    result.emplace_back(a, m);
+  };
   string disc, has, positions, at, time, it, is, position;
   char number, fullstop;
   unsigned num, m, a;
   unsigned max_num = 0;
-  while (cin >> disc >> number >> num >> has >> m >> positions >>
-         at >> time >> it >> is >> at >> position >> a >> fullstop) {
+  while (cin >> disc >> number >> num >> has >> m >> positions >> at >> time >>
+         it >> is >> at >> position >> a >> fullstop) {
     add(num, a, m);
     max_num = max(max_num, num);
   }
@@ -64,7 +64,7 @@ vector<discs> read(bool extra) {
 
 void solve(bool extra) {
   auto machine = read(extra);
-  discs everything{ 0, 1 };
+  discs everything{0, 1};
   while (!machine.empty()) {
     everything = align(everything, machine.back());
     machine.pop_back();

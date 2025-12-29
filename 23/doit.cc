@@ -38,76 +38,75 @@ struct computer {
 
 computer::computer(int rega) {
   reg[0] = rega;
-  auto regimm =
-    []() {
-      string operand;
-      cin >> operand;
-      if (isdigit(operand[0]) || operand[0] == '-')
-        return make_pair(false, stoi(operand));
-      assert(operand.size() == 1 && operand[0] >= 'a' && operand[0] <= 'd');
-      return make_pair(true, operand[0] - 'a');
-    };
+  auto regimm = []() {
+    string operand;
+    cin >> operand;
+    if (isdigit(operand[0]) || operand[0] == '-')
+      return make_pair(false, stoi(operand));
+    assert(operand.size() == 1 && operand[0] >= 'a' && operand[0] <= 'd');
+    return make_pair(true, operand[0] - 'a');
+  };
   auto getreg = [&]() {
-                  auto [reg, r] = regimm();
-                  assert(reg);
-                  return r;
-                };
-  auto add = [&](instruction fn) { instr.push_back({ fn, 0 }); };
+    auto [reg, r] = regimm();
+    assert(reg);
+    return r;
+  };
+  auto add = [&](instruction fn) { instr.push_back({fn, 0}); };
   string op;
   while (cin >> op) {
     if (op == "inc" || op == "dec") {
       int r = getreg();
       int c = op == "inc" ? +1 : -1;
       add([=](computer &cptr, int toggled) {
-            cptr.reg[r] += (toggled % 2 == 0 ? c : -c);
-            ++cptr.pc;
-          });
+        cptr.reg[r] += (toggled % 2 == 0 ? c : -c);
+        ++cptr.pc;
+      });
     } else if (op == "tgl") {
       int r = getreg();
       add([=](computer &cptr, int toggled) {
-            if (!toggled)
-              cptr.toggle(cptr.reg[r]);
-            else
-              // inc or dec
-              cptr.reg[r] += (toggled % 2 == 1 ? +1 : -1);
-            ++cptr.pc;
-          });
+        if (!toggled)
+          cptr.toggle(cptr.reg[r]);
+        else
+          // inc or dec
+          cptr.reg[r] += (toggled % 2 == 1 ? +1 : -1);
+        ++cptr.pc;
+      });
     } else if (op == "cpy") {
       auto arg1 = regimm();
       int arg2 = getreg();
       add([=](computer &cptr, int toggled) {
-            if (toggled % 2 == 0) {
-              // cpy
-              cptr.reg[arg2] = cptr.value(arg1);
-              ++cptr.pc;
-            } else {
-              // jnz
-              if (cptr.value(arg1) != 0)
-                cptr.pc += cptr.reg[arg2];
-              else
-                ++cptr.pc;
-            }
-          });
+        if (toggled % 2 == 0) {
+          // cpy
+          cptr.reg[arg2] = cptr.value(arg1);
+          ++cptr.pc;
+        } else {
+          // jnz
+          if (cptr.value(arg1) != 0)
+            cptr.pc += cptr.reg[arg2];
+          else
+            ++cptr.pc;
+        }
+      });
     } else {
       assert(op == "jnz");
       auto arg1 = regimm();
       auto arg2 = regimm();
       add([=](computer &cptr, int toggled) {
-            if (toggled % 2 == 0) {
-              // jnz
-              if (cptr.value(arg1) != 0)
-                cptr.pc += cptr.value(arg2);
-              else
-                ++cptr.pc;
-            } else {
-              // cpy
-              if (!arg2.first)
-                // immediate destination
-                return;
-              cptr.reg[arg2.second] = cptr.value(arg1);
-              ++cptr.pc;
-            }
-          });
+        if (toggled % 2 == 0) {
+          // jnz
+          if (cptr.value(arg1) != 0)
+            cptr.pc += cptr.value(arg2);
+          else
+            ++cptr.pc;
+        } else {
+          // cpy
+          if (!arg2.first)
+            // immediate destination
+            return;
+          cptr.reg[arg2.second] = cptr.value(arg1);
+          ++cptr.pc;
+        }
+      });
     }
   }
 }

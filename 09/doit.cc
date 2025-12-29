@@ -30,10 +30,10 @@ contents::contents(string const &s) : compressed(s) {
     return;
   string prefix;
   auto add_prefix = [&]() {
-                      if (!prefix.empty())
-                        uncompressed.emplace_back(1, prefix);
-                      prefix.clear();
-                    };
+    if (!prefix.empty())
+      uncompressed.emplace_back(1, prefix);
+    prefix.clear();
+  };
   stringstream ss(compressed);
   char c;
   while (ss >> c) {

@@ -15,12 +15,15 @@ using namespace std;
 using coord = pair<int, int>;
 
 coord operator+(coord const &xy1, coord const &xy2) {
-  return { xy1.first + xy2.first, xy1.second + xy2.second };
+  return {xy1.first + xy2.first, xy1.second + xy2.second};
 }
 
 void walk(coord &xy, function<void()> fn) {
-  coord dir{ 0, 1 };
-  auto left = [&]() { swap(dir.first, dir.second); dir.first = -dir.first; };
+  coord dir{0, 1};
+  auto left = [&]() {
+    swap(dir.first, dir.second);
+    dir.first = -dir.first;
+  };
   string step;
   while (cin >> step) {
     if (step.back() == ',')
@@ -42,21 +45,21 @@ void walk(coord &xy, function<void()> fn) {
 }
 
 void part1() {
-  coord xy{ 0, 0 };
-  walk(xy, [](){});
+  coord xy{0, 0};
+  walk(xy, []() {});
   cout << abs(xy.first) + abs(xy.second) << '\n';
 }
 
 void part2() {
-  coord xy{ 0, 0 };
+  coord xy{0, 0};
   set<coord> visited;
   visited.insert(xy);
   optional<coord> ans;
   walk(xy, [&]() {
-             if (visited.count(xy) && !ans)
-               ans = xy;
-             visited.insert(xy);
-           });
+    if (visited.count(xy) && !ans)
+      ans = xy;
+    visited.insert(xy);
+  });
   assert(ans);
   cout << abs(ans->first) + abs(ans->second) << '\n';
 }

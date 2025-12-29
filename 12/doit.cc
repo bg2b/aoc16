@@ -30,47 +30,46 @@ struct computer {
 
 computer::computer(int regc) {
   reg['c' - 'a'] = regc;
-  auto regimm =
-    []() {
-      string operand;
-      cin >> operand;
-      if (isdigit(operand[0]) || operand[0] == '-')
-        return make_pair(false, stoi(operand));
-      assert(operand.size() == 1 && operand[0] >= 'a' && operand[0] <= 'd');
-      return make_pair(true, operand[0] - 'a');
-    };
+  auto regimm = []() {
+    string operand;
+    cin >> operand;
+    if (isdigit(operand[0]) || operand[0] == '-')
+      return make_pair(false, stoi(operand));
+    assert(operand.size() == 1 && operand[0] >= 'a' && operand[0] <= 'd');
+    return make_pair(true, operand[0] - 'a');
+  };
   auto getreg = [&]() {
-                  auto [reg, r] = regimm();
-                  assert(reg);
-                  return r;
-                };
+    auto [reg, r] = regimm();
+    assert(reg);
+    return r;
+  };
   string op;
   while (cin >> op) {
     if (op == "inc" || op == "dec") {
       int r = getreg();
       int c = op == "inc" ? +1 : -1;
       instr.push_back([=](computer &cptr) {
-                        cptr.reg[r] += c;
-                        ++cptr.pc;
-                      });
+        cptr.reg[r] += c;
+        ++cptr.pc;
+      });
     } else if (op == "cpy") {
       auto from = regimm();
       int to = getreg();
       instr.push_back([=](computer &cptr) {
-                        cptr.reg[to] = cptr.value(from);
-                        ++cptr.pc;
-                      });
+        cptr.reg[to] = cptr.value(from);
+        ++cptr.pc;
+      });
     } else {
       assert(op == "jnz");
       auto test = regimm();
       int disp;
       cin >> disp;
       instr.push_back([=](computer &cptr) {
-                        if (cptr.value(test) != 0)
-                          cptr.pc += disp;
-                        else
-                          ++cptr.pc;
-                      });
+        if (cptr.value(test) != 0)
+          cptr.pc += disp;
+        else
+          ++cptr.pc;
+      });
     }
   }
 }

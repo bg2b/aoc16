@@ -51,8 +51,8 @@ struct hasher {
   bool check() const;
 };
 
-hasher::hasher(string const &salt_, unsigned md5_reps_) :
-  salt(salt_), md5_reps(md5_reps_) {
+hasher::hasher(string const &salt_, unsigned md5_reps_)
+    : salt(salt_), md5_reps(md5_reps_) {
   for (unsigned i = 0; i < hash.size(); ++i)
     fill(i);
 }
