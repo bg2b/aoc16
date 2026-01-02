@@ -15,7 +15,7 @@ using namespace std;
 
 struct computer {
   // Program counter
-  unsigned pc;
+  unsigned pc{0};
   // Registers a through d
   array<int, 4> reg;
   // The instructions
